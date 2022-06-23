@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %} KUN.UZ  {% endblock %}
+
+{% block content %}
+    {% if tag.name %}
+        <h1>{{ tag.name }}ga oid yangiliklar</h1>
+    {% else %}
+    <h1>Barcha yangiliklar</h1>
+    {% endif %}
+    <hr>
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {% for new in news %}
+                    <div class="col">
+                        <div class="card shadow-sm">
+                            <img src="{{ new.img.url }}">
+                            <div class="card-body">
+                                <p class="card-text"><strong>{{ new.title }}</strong></p>
+                                <p class="card-text">{{ new.description|truncatewords:8 }}</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a href="{% url 'new_detail' new.slug %}">
+                                            <button type="button" class="btn btn-sm btn-outline-secondary">Batafsil
+                                            </button>
+                                        </a>
+                                    </div>
+                                    <small class="text-muted">{{ new.created|time:'h:i' }}
+                                        / {{ new.created|date:'d.m.Y' }}</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+{% endblock %}

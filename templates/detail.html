@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block title %} {{ new.title }}  {% endblock %}
+
+{% block content %}
+    <hr>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-2">
+                <h5>So'nggi yangiliklar</h5>
+                {% for nl in news_last %}
+                    <span>Sana: {{ nl.created|time:'h:i' }}/ {{ nl.created|date:'d.m.Y' }}</span>
+                    <p style="font-size: large"><a href="{% url 'new_detail' nl.slug %}">{{ nl.title }}</a></p><hr>
+                {% endfor %}
+
+            </div>
+            <div class="col-lg-8">
+                <span>Sana: {{ new.created|time:'h:i' }} / {{ new.created|date:'d.m.Y' }}</span> |
+                <span>Ko'rish: {{ new.views }}</span>
+                <h2>{{ new.title }}</h2>
+                <div><img style="width: 80%;" src="{{ new.img.url }}"></div>
+                <p>{{ new.description }}</p>
+                {% for tag in new.tags.all %}
+                    <a href="{% url 'tag_list' tag.slug %}">#{{ tag.name }}</a> |
+                {% endfor %}
+            </div>
+            <div class="col-lg-2">
+                <h5>{{ new.category.name }} yangiliklar</h5>
+                {% for nc in news_category %}
+                    {% if new.title != nc.title %}
+                        <span>Sana: {{ nc.created|time:'h:i' }}/ {{ nc.created|date:'d.m.Y' }}</span>
+                        <p style="font-size: large"><a href="{% url 'new_detail' nc.slug %}">{{ nc.title }}</a></p>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
